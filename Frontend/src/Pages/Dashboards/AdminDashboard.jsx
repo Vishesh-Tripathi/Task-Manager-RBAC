@@ -12,7 +12,7 @@ import UserTable from "./Usertable";
 import axios from "axios";
 import {setAdmin, setAdminTask, setAdminUser} from "../../features/userSlice";
 
-
+//console.log(import.meta.env.VITE_SERVER_DOMAIN,"dsf")
 // Sidebar categories
 const categories = [
   { id: "tasks", name: "Tasks", icon: <FaTasks className="text-lg" /> },
