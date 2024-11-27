@@ -48,7 +48,8 @@ const formateDataforadmin=(user)=>{
         profile_img:user.profile_img,
         email:user.email,
         fullname:user.fullname,
-        id:user._id
+        id:user._id,
+        role:user.role
 
        }
 }

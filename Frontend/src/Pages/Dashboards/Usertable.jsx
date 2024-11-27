@@ -16,15 +16,35 @@ const UserTable = ({ accessToken }) => {
   const userData = useSelector((state) => state.user);
 
   // Fetch users data from Redux store
-  
+  let flg = 0;
+
+  // const access_token = userData?.access_token;
+  const access_token = userData?.access_token;
+  const fetchUser=async()=>{
+    try{
+      let user = await axios.get(import.meta.env.VITE_SERVER_DOMAIN+"/auth/getusers",{
+         
+          headers: { authorization: `${access_token}` },
+       
+      })
+      console.log(user.data.users,"yuihyutr");
+      setUsers(user.data.users)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    setUsers(userData?.adminData?.data?.user);
+    // setUsers(userData?.adminData?.data?.user);
+    fetchUser()
     setLoading(false);
-  }, [userData]);
+  }, []);
   
+  console.log(users,"yhioth")
 
   const baseurl = import.meta.env.VITE_SERVER_DOMAIN;
-  const access_token = userData?.access_token;
+
 
   // adding a user 
 
@@ -39,6 +59,8 @@ const UserTable = ({ accessToken }) => {
           },
         }
       );
+      flg =1;
+      fetchUser()
       toast.success(response.data.message);
       setShowAddUserModal(false);
     } catch (error) {
@@ -67,6 +89,7 @@ const UserTable = ({ accessToken }) => {
   const confirmChangeRole = async () => {
     try {
       const ID = selectedUser._id;
+      console.log(ID,"yui")
       const response = await axios.put(
         `${baseurl}/auth/updateuser`,
         { id:ID }, // Pass user ID
@@ -87,6 +110,47 @@ const UserTable = ({ accessToken }) => {
       toast.error(error.response?.data?.message || "Error changing role");
     }
   };
+  const handleDeleteUser = async (id) => {
+    try {
+      const response = await axios.post(
+        `${baseurl}/auth/deleteuser/${id}`,
+        {
+          headers: {
+            authorization: `${access_token}`,
+          },
+        }
+      );
+      flg =1;
+      toast.success(response.data.message);
+      fetchUser()
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error deleting user");
+    }
+  }
+
+  ///checking api
+  //   const alldata=async()=>{
+  //   await axios.get(import.meta.env.VITE_SERVER_DOMAIN+"/task/getallTasks",
+  //     {
+  //       headers:{
+  //         'authorization': `${access_token}`
+  //       }
+  //     }
+      
+  //   ).then((data)=>{
+  //     console.log(data,"dsff")
+  //     dispatch(setAdmin(data));
+  //     dispatch(setAdminTask(data.data.task))
+  //     dispatch(setAdminUser(data.data.user))
+  //     return;
+  //   })
+  //   .catch(({response})=>{
+  //      console.log(response)
+  //      return;
+      
+  //   })
+
+  // }
 
   return (
     <div className="p-4">
@@ -132,7 +196,7 @@ const UserTable = ({ accessToken }) => {
                         Assign Task
                       </button>
                       <button
-                        onClick={() => handleChangeRole(user._id)}
+                        onClick={() => handleChangeRole(user)}
                         className="flex items-center text-blue-600 hover:text-blue-700 transition"
                       >
                         <FaUserEdit className="mr-2" />

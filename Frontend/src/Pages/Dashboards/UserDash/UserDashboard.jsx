@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useNavigate } from "react-router-dom";
 
 // Register Chart.js elements
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -17,6 +18,12 @@ const UserDashboard = () => {
 
   const userData = useSelector((state) => state.user);
   const access_token = userData?.access_token;
+  const navigate=useNavigate();
+  useEffect(() => {
+    if (!userData?.access_token || userData.userData.role!==`user`) {
+      navigate("/"); // Redirect to the homepage if no access_token
+    }
+  }, [userData, navigate]);
 
   const categories = [
     { id: "all", name: "All", icon: <FaExclamationCircle /> },
@@ -36,6 +43,7 @@ const UserDashboard = () => {
         }
       );
       setTasks(response.data.task);
+      // clg
       generateChartData(response.data.task); // Generate chart data after fetching tasks
     } catch (error) {
       console.error(error.response?.data?.message || "Error fetching tasks");
@@ -101,6 +109,7 @@ const UserDashboard = () => {
           task.id === taskToSubmit ? { ...task, status: "review" } : task
         )
       );
+      fetchTasks(); // Refetch tasks after updating the status
       setIsModalOpen(false); // Close the modal after submitting
       setTaskToSubmit(null); // Clear the task ID
       generateChartData(tasks); // Regenerate chart data after updating the task
@@ -114,15 +123,16 @@ const UserDashboard = () => {
     setIsModalOpen(false); // Close the modal without any changes
     setTaskToSubmit(null); // Clear the task ID
   };
+  console.log(tasks)
 
   return (
     <div className="flex flex-col md:flex-row h-screen pt-16">
       {/* Sidebar */}
       <aside className="w-full md:w-1/4 bg-gray-100 p-4 md:block flex-none md:flex-col">
         <div className="flex md:flex-col space-x-4 md:space-x-0 flex-wrap justify-center md:justify-start">
-          {categories.map((category) => (
+          {categories.map((category,i) => (
             <button
-              key={category.id}
+              key={i}
               onClick={() => setSelectedCategory(category.id)}
               className={`flex items-center space-x-2 cursor-pointer p-2 rounded-full text-md font-semibold transition-colors ${
                 selectedCategory === category.id
@@ -162,11 +172,11 @@ const UserDashboard = () => {
               ) {
                 return (
                   <div
-                    key={task.id}
+                    key={task._id}
                     className="backdrop-blur-sm p-6 shadow-lg rounded-xl flex flex-col transform transition-all hover:scale-105 hover:shadow-2xl"
                   >
                     <h3 className="text-black font-semibold text-xl">{task.title}</h3>
-                    <p className="text-black text-sm mt-2">{task.description}</p>
+                    <p className="text-black text-sm mt-2">{task.Taskmessage}</p>
                     {/* Created At */}
                     <p className="text-sm text-blue-600 mt-1">
                       <strong>Created At:</strong> {task.updatedAt}

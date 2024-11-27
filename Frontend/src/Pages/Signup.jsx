@@ -4,6 +4,7 @@ import uranus from "../assets/uranus.gif"; // Replace with your logo path
 import side from "../assets/side.gif"; // Replace with your GIF path
 
 const Signup = () => {
+  
   return (
     <div className="flex h-screen flex-col md:flex-row">
       {/* Left Section (Hidden on smaller screens) */}

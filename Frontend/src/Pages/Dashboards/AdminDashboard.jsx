@@ -32,7 +32,7 @@ const TaskManagement = () => {
   
   
   useEffect(() => {
-    if (!userData?.access_token) {
+    if (!userData?.access_token || userData.userData.role!==`admin`) {
       navigate("/"); // Redirect to the homepage if no access_token
     }
   }, [userData, navigate]);
@@ -51,8 +51,8 @@ const TaskManagement = () => {
     ).then((data)=>{
       console.log(data,"dsff")
       dispatch(setAdmin(data));
-      dispatch(setAdminTask(data.data.task))
-      dispatch(setAdminUser(data.data.user))
+      // dispatch(setAdminTask(data.data.task))
+      // dispatch(setAdminUser(data.data.user))
       return;
     })
     .catch(({response})=>{
@@ -71,7 +71,7 @@ const TaskManagement = () => {
 
  console.log(userData,"tyuiiii")
   return (
-    <div className="pt-16">
+    <div className="pt-16 ">
       <div className="h-screen flex flex-col md:flex-row">
         {/* Categories (mobile view above main content, sidebar on large screens) */}
         <nav className="w-full bg-white p-4 shadow-md md:hidden flex justify-between mb-4">
@@ -92,7 +92,7 @@ const TaskManagement = () => {
         </nav>
 
         {/* Sidebar (hidden on mobile view, displayed on larger screens) */}
-        <aside className="w-1/6 bg-gray-100 p-4 shadow-md md:block hidden">
+        <aside className="w-1/6 bg-gray-100 p-4 pt-20 shadow-md md:block hidden">
           <h2 className="text-xl font-bold mb-4 text-gray-700">Admin Panel</h2>
           <nav>
             <ul className="space-y-4">
@@ -115,7 +115,7 @@ const TaskManagement = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 bg-gray-50 overflow-auto">
+        <main className="flex-1  bg-gray-50 ">
           {/* Conditionally render based on selected category */}
           {selectedCategory === "tasks" ? (
             <TaskList  />

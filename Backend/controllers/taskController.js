@@ -428,6 +428,45 @@ exports.deleteTask=async(req,res)=>{
         return res.status(500).json({ message: 'An error occurred while deleting the task', error });
     }
 }
+
+exports.getAlltaskusinid = async (req,res) => {
+    try {
+        // Find the admin by ID and populate the 'allTasks' field
+        let adminId=req.user.id;
+        console.log(adminId)
+        const tasks = await Admin.findById(adminId).populate({
+            path:'alltasks',
+            
+        });
+        // const users = await Admin.findById(adminId).populate({
+        //     path:'allusers',
+        //     select:'_id profile_img fullname email '
+            
+        // });
+        
+        // const user = await User.findById(id).populate({
+        //     path: 'courses',
+        //     select: 'title description price', // Only include title, description, and price fields
+        //   });
+
+        if (!tasks) {
+            return res.status(200).json({
+                success:false,
+                message:"Somrthing went wrong"       
+             })
+        }
+
+        // Return the populated tasks
+        return res.status(200).json({
+       success:true,
+       task:tasks.alltasks,
+    //    user:users.allusers 
+    })
+    } catch (error) {
+        console.error("Error fetching tasks:", error);
+        return { success: false, message: "Failed to fetch tasks", error };
+    }
+};
 // exports.uploadData=async(req,res)=>{
 //     console.log(req.user)
 //        res.send(req.body)

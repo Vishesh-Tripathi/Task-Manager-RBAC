@@ -27,8 +27,8 @@ const saveAdminToLocalStorage = (adminData) => {
 
 // Helper functions for admin task data in localStorage
 const loadAdminTaskFromLocalStorage = () => {
-  const savedAdmin = localStorage.getItem('adminTaskData');
-  return savedAdmin ? JSON.parse(savedAdmin) : null;
+  const savedAdminTaskData = localStorage.getItem('adminTaskData');
+  return savedAdminTaskData ? JSON.parse(savedAdminTaskData) : null;
 };
 
 const saveAdminTaskToLocalStorage = (adminTaskData) => {
@@ -37,8 +37,8 @@ const saveAdminTaskToLocalStorage = (adminTaskData) => {
 
 // Helper functions for admin users data in localStorage
 const loadAdminUsersFromLocalStorage = () => {
-  const savedAdmin = localStorage.getItem('adminUserData');
-  return savedAdmin ? JSON.parse(savedAdmin) : null;
+  const savedAdminUser = localStorage.getItem('adminUserData');
+  return savedAdminUser ? JSON.parse(savedAdminUser) : null;
 };
 
 const saveAdminUsersToLocalStorage = (adminUserData) => {
