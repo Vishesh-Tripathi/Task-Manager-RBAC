@@ -7,6 +7,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setUser } from "../features/userSlice";
+import Robot from "../Components/Robot";
+
 
 const Homepage = () => {
   const [role, setRole] = useState("user");
@@ -50,17 +52,19 @@ const Homepage = () => {
       <Toaster />
 
       {/* Left Section */}
-      <div className="lg:w-1/2 w-full bg-gray-100 flex items-center justify-center hidden lg:flex">
-        <img src={side} alt="Animated Bars" className="w-3/4" />
+      <div className=" w-full bg-gray-100 flex items-center justify-center hidden lg:flex">
+        {/* <img src={side} alt="Animated Bars" className="w-3/4" /> */}
+        <Robot/>
       </div>
 
       {/* Right Section */}
-      <div className="lg:w-1/2 w-full bg-white flex items-center justify-center shadow-md">
+      <div className="lg:w-1/2 w-full bg-[#E3E3E3] flex items-center justify-center ">
         <div className="w-5/6 md:w-2/3">
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <div className="w-20 h-20 flex items-center justify-center">
-              <img src={uranus} alt="Logo" />
+              {/* <img src={uranus} alt="Logo" /> */}
+            
             </div>
           </div>
 
@@ -134,15 +138,15 @@ const Homepage = () => {
 
             {/* Remember Me and Forgot Password */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 space-y-2 md:space-y-0">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input type="checkbox" id="remember" className="mr-2" />
                 <label htmlFor="remember" className="text-sm text-gray-600">
                   Remember for 30 days
                 </label>
-              </div>
-              <a href="#" className="text-sm text-blue-500 hover:underline">
+              </div> */}
+              {/* <a href="#" className="text-sm text-blue-500 hover:underline">
                 Forgot password?
-              </a>
+              </a> */}
             </div>
 
             {/* Buttons */}
